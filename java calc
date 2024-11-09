@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class lindo {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+
+System.out.print("DIGITE UM NÚMERO:");
+int num1 = scanner.nextInt();
+
+ 
+System.out.print("DIGITE UM NÚMERO:");
+int num2 = scanner.nextInt();
+int resultado = num1+num2;
+
+System.out.println("A soma de " + num1 + " e " + num2 + " é: " + resultado);
+
+scanner.close();
+}
+}
