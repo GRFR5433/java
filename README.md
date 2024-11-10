@@ -5,4 +5,4 @@ Bem-vindo ao meu repositório de **Projetos Básicos em Java**! Aqui estão algu
 ---
 
 ## 🤝 Como Contribuir
-Contribuições são bem-vindas! Se tiver sugestões de melhorias, correções ou quiser adicionar novos exemplos
+Contribuições são bem-vindas! Se tiver sugestões de melhorias ou correções fique a vontade 😀👍
