@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     private static final String[] RACAS = {"Humano", "Demônio", "Elfo", "Anão", "Orc", "Mob"};
+    private static final String[] DIFICULDADES = {"Fácil", "Normal", "Difícil"};
+    private static final String[] CLASSES = {"Guerreiro", "Arqueiro", "Mago", "Assassino", "Necromante", "Clérico", "Ladrão"};
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,6 +19,23 @@ public class Main {
         System.out.println(nome + ", seja bem-vindo ao Solo, um RPG de texto!");
         exibirLinha();
 
+        
+        System.out.println("Escolha a dificuldade:");
+        for (int i = 0; i < DIFICULDADES.length; i++) {
+            System.out.println((i + 1) + ". " + DIFICULDADES[i]);
+        }
+        System.out.print("Digite o número da dificuldade desejada: ");
+        int escolhaDificuldade = scanner.nextInt();
+        scanner.nextLine();
+
+        String dificuldadeEscolhida = null;
+        if (escolhaDificuldade >= 1 && escolhaDificuldade <= DIFICULDADES.length) {
+            dificuldadeEscolhida = DIFICULDADES[escolhaDificuldade - 1];
+        } else {
+            System.out.println("Escolha inválida! A dificuldade será definida como 'Normal' por padrão.");
+            dificuldadeEscolhida = "Normal";
+        }
+
         exibirRacas();
         System.out.print("Digite o número ou o nome da raça que você deseja ser: ");
         String entrada = scanner.nextLine().trim().toLowerCase();
@@ -24,6 +43,38 @@ public class Main {
         String racaEscolhida = determinarRaca(entrada, random);
         exibirLinha();
         System.out.println("Parabéns, " + nome + "! Você escolheu ser um(a) " + racaEscolhida + ".");
+        System.out.println("Sua dificuldade: " + dificuldadeEscolhida);
+
+        
+        int indiceAleatorio = random.nextInt(CLASSES.length);
+        String classeEscolhida = CLASSES[indiceAleatorio];
+        System.out.println("Sorteando sua classe...");
+        System.out.println("Sua classe: " + classeEscolhida);
+
+        
+        int forca = random.nextInt(11) + 5; 
+        int agilidade = random.nextInt(11) + 5; 
+        int defesa = random.nextInt(11) + 5; 
+        int inteligencia = random.nextInt(11) + 5; 
+        int sabedoria = random.nextInt(11) + 5; 
+        int carisma = random.nextInt(11) + 5; 
+        System.out.println("Seus status:");
+        System.out.println("Força: " + forca);
+        System.out.println("Agilidade: " + agilidade);
+        System.out.println("Defesa: " + defesa);
+        System.out.println("Inteligência: " + inteligencia);
+        System.out.println("Sabedoria: " + sabedoria);
+        System.out.println("Carisma: " + carisma);
+
+
+        String[] itens = {"Espada de Ferro", "Arco e Flechas", "Varinha Mágica", "Poção de Cura", "Mapa da Região"};
+        int numeroDeItens = random.nextInt(3) + 1; 
+        System.out.println("Seus itens:");
+        for (int i = 0; i < numeroDeItens; i++) {
+            int indiceItem = random.nextInt(itens.length);
+            System.out.println("- " + itens[indiceItem]);
+        }
+
         System.out.println("Prepare-se para a aventura de sua vida!");
         exibirLinha();
 
