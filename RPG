@@ -5,6 +5,9 @@ public class Main {
     private static final String[] RACAS = {"Humano", "Demônio", "Elfo", "Anão", "Orc", "Mob"};
     private static final String[] DIFICULDADES = {"Fácil", "Normal", "Difícil"};
     private static final String[] CLASSES = {"Guerreiro", "Arqueiro", "Mago", "Assassino", "Necromante", "Clérico", "Ladrão"};
+    private static final String[] LOCACOES = {"Vila", "Reino", "Floresta"};
+    private static String[] INVENTARIO = new String[5];
+    private static int INVENTARIO_COUNT = 0;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -12,21 +15,24 @@ public class Main {
 
         exibirLinha();
         System.out.print("Digite seu nome: ");
-        String nome = scanner.nextLine().trim();
+        String nome = scanner.nextLine().trim(); // Captura o nome do jogador
         exibirLinha();
 
+        // Mensagem de boas-vindas
         System.out.println("Bem-vindo, " + nome + "!");
         System.out.println(nome + ", seja bem-vindo ao Solo, um RPG de texto!");
         exibirLinha();
 
-        
+        int dinheiro = 10; // Inicializando o dinheiro do jogador
+
+        // Escolha da dificuldade do jogo
         System.out.println("Escolha a dificuldade:");
         for (int i = 0; i < DIFICULDADES.length; i++) {
             System.out.println((i + 1) + ". " + DIFICULDADES[i]);
         }
         System.out.print("Digite o número da dificuldade desejada: ");
         int escolhaDificuldade = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Limpeza do buffer de scanner
 
         String dificuldadeEscolhida = null;
         if (escolhaDificuldade >= 1 && escolhaDificuldade <= DIFICULDADES.length) {
@@ -36,6 +42,7 @@ public class Main {
             dificuldadeEscolhida = "Normal";
         }
 
+        // Escolha da raça do personagem
         exibirRacas();
         System.out.print("Digite o número ou o nome da raça que você deseja ser: ");
         String entrada = scanner.nextLine().trim().toLowerCase();
@@ -45,46 +52,105 @@ public class Main {
         System.out.println("Parabéns, " + nome + "! Você escolheu ser um(a) " + racaEscolhida + ".");
         System.out.println("Sua dificuldade: " + dificuldadeEscolhida);
 
-        
+        // Sorteio da classe do personagem
         int indiceAleatorio = random.nextInt(CLASSES.length);
         String classeEscolhida = CLASSES[indiceAleatorio];
         System.out.println("Sorteando sua classe...");
         System.out.println("Sua classe: " + classeEscolhida);
 
-        
-        int forca = random.nextInt(11) + 5; 
-        int agilidade = random.nextInt(11) + 5; 
-        int defesa = random.nextInt(11) + 5; 
-        int inteligencia = random.nextInt(11) + 5; 
-        int sabedoria = random.nextInt(11) + 5; 
-        int carisma = random.nextInt(11) + 5; 
+        // Atributos aleatórios do personagem
+        int forca = random.nextInt(11) + 5;
+        int agilidade = random.nextInt(11) + 5;
+        int defesa = random.nextInt(11) + 5;
+        int vidaJogador = 30; // Inicializando a vida do jogador
         System.out.println("Seus status:");
         System.out.println("Força: " + forca);
         System.out.println("Agilidade: " + agilidade);
         System.out.println("Defesa: " + defesa);
-        System.out.println("Inteligência: " + inteligencia);
-        System.out.println("Sabedoria: " + sabedoria);
-        System.out.println("Carisma: " + carisma);
+        System.out.println("Vida: " + vidaJogador);
 
+        // Localização de nascimento do personagem
+        int indiceLocalizacao = random.nextInt(LOCACOES.length);
+        String localizacao = LOCACOES[indiceLocalizacao];
+        System.out.println("Você nasceu em: " + localizacao);
 
+        // Itens aleatórios do personagem
         String[] itens = {"Espada de Ferro", "Arco e Flechas", "Varinha Mágica", "Poção de Cura", "Mapa da Região"};
-        int numeroDeItens = random.nextInt(3) + 1; 
+        int numeroDeItens = random.nextInt(3) + 1;
         System.out.println("Seus itens:");
         for (int i = 0; i < numeroDeItens; i++) {
             int indiceItem = random.nextInt(itens.length);
+            adicionarItemInventario(itens[indiceItem]);
             System.out.println("- " + itens[indiceItem]);
         }
 
+        // Preparação para a aventura
         System.out.println("Prepare-se para a aventura de sua vida!");
         exibirLinha();
+
+        // Entrando em combate
+        entrarDungeon(forca, defesa, vidaJogador);
+
+        // Menu principal
+        mostrarMenuPrincipal(scanner, random, forca, defesa, vidaJogador);
 
         scanner.close();
     }
 
+    // Método para entrar em uma dungeon
+    private static void entrarDungeon(int forca, int defesa, int vidaJogador) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Você entra na dungeon e se depara com uma criatura feroz!");
+        int vidaInimigo = 20;
+        int danoInimigo = 5;
+
+        // Combate
+        while (vidaJogador > 0 && vidaInimigo > 0) {
+            System.out.println("Sua vez de atacar!");
+            if (responderPerguntaMatematica()) {
+                System.out.println("Você acertou a pergunta! Atacando o inimigo...");
+                vidaInimigo -= forca;
+                System.out.println("O inimigo perdeu " + forca + " de vida. Vida do inimigo: " + vidaInimigo);
+            } else {
+                System.out.println("Você errou a pergunta! Não conseguiu atacar.");
+            }
+
+            if (vidaInimigo <= 0) {
+                System.out.println("Você derrotou o inimigo!");
+                break;
+            }
+
+            // O inimigo ataca
+            System.out.println("Agora é a vez do inimigo!");
+            vidaJogador -= danoInimigo;
+            System.out.println("Você perdeu " + danoInimigo + " de vida. Sua vida: " + vidaJogador);
+
+            if (vidaJogador <= 0) {
+                System.out.println("Você foi derrotado...");
+            }
+        }
+    }
+
+    // Método para fazer uma pergunta de matemática
+    private static boolean responderPerguntaMatematica() {
+        Random random = new Random();
+        int a = random.nextInt(10) + 1;
+        int b = random.nextInt(10) + 1;
+        int respostaCorreta = a + b;
+
+        System.out.print("Quanto é " + a + " + " + b + "? ");
+        Scanner scanner = new Scanner(System.in);
+        int respostaJogador = scanner.nextInt();
+
+        return respostaJogador == respostaCorreta;
+    }
+
+    // Método para exibir uma linha decorativa
     private static void exibirLinha() {
         System.out.println("-".repeat(40));
     }
 
+    // Método para exibir as raças disponíveis para o jogador
     private static void exibirRacas() {
         System.out.println("Raças disponíveis:");
         for (int i = 0; i < RACAS.length; i++) {
@@ -94,6 +160,7 @@ public class Main {
         exibirLinha();
     }
 
+    // Método para determinar a raça escolhida pelo jogador
     private static String determinarRaca(String entrada, Random random) {
         if (entrada.equals("7") || entrada.equals("aleatório")) {
             int indiceAleatorio = random.nextInt(RACAS.length);
@@ -116,6 +183,63 @@ public class Main {
                 return raca;
             }
         }
+
+        System.out.println("Escolha inválida! Você será designado como 'Humano' por padrão.");
+        return "Humano";
+    }
+
+    // Método para adicionar item no inventário
+    private static void adicionarItemInventario(String item) {
+        if (INVENTARIO_COUNT < INVENTARIO.length) {
+            INVENTARIO[INVENTARIO_COUNT++] = item;
+        }
+    }
+
+    // Método para exibir o inventário e o dinheiro
+    private static void exibirInventario(int dinheiro) {
+        System.out.println("Inventário:");
+        for (int i = 0; i < INVENTARIO_COUNT; i++) {
+            System.out.println("- " + INVENTARIO[i]);
+        }
+        System.out.println("Dinheiro restante: " + dinheiro);
+    }
+
+    // Método para mostrar o menu principal após o combate
+    private static void mostrarMenuPrincipal(Scanner scanner, Random random, int forca, int defesa, int vidaJogador) {
+        boolean continuar = true;
+        while (continuar) {
+            exibirLinha();
+            System.out.println("Menu Principal:");
+            System.out.println("1. Continuar a aventura");
+            System.out.println("2. Ir para outra dungeon");
+            System.out.println("3. Ver inventário");
+            System.out.println("4. Sair");
+            System.out.print("Escolha uma opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpeza do buffer de scanner
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Você continua sua aventura...");
+                    break;
+                case 2:
+                    entrarDungeon(forca, defesa, vidaJogador);
+                    break;
+                case 3:
+                    exibirInventario(10);  // Digamos que o jogador tem 10 de dinheiro
+                    break;
+                case 4:
+                    System.out.println("Você saiu do jogo. Até logo!");
+                    continuar = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        }
+    }
+}
+
 
         System.out.println("Escolha inválida! Você será designado como 'Humano' por padrão.");
         return "Humano";
