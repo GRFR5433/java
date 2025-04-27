@@ -2,59 +2,62 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in);
 
-        System.out.println("Seja bem vindo ao sistema!\n");
-        
-        System.out.println("Digite o seu nome: ");
-        String nome = scanner.nextLine();
-        
-        System.out.println("Digite a sua idade: "); 
-        int idade = scanner.nextInt();
-        scanner.nextLine(); 
+        System.out.println("Seja bem-vindo ao sistema!");
+        System.out.println("-".repeat(40));
+
+        System.out.print("Digite o seu nome: ");
+        String nome = teclado.nextLine();
+
+        System.out.print("Digite a sua idade: ");
+        int idade = teclado.nextInt();
+        teclado.nextLine(); // limpar o Enter que sobra
 
         System.out.println("-".repeat(40));
-        
+
         if (idade >= 18) {
-            System.out.println("Acesso liberado 🔓!");
+            System.out.println("Acesso liberado!");
             System.out.println("-".repeat(40));
-            System.out.println("Sua idade é: " + idade + " anos"); 
             System.out.println("Seu nome é: " + nome);
-            
-            System.out.println("\nEscolha seu café da manhã:");
+            System.out.println("Sua idade é: " + idade + " anos");
+
+            System.out.println();
+            System.out.println("Escolha seu café da manhã:");
             System.out.println("-".repeat(40));
-            System.out.println("1. Café");
-            System.out.println("2. Bolacha");
-            System.out.println("3. Pão");
-            System.out.println("4. Frutas");
+            System.out.println("1 - Café");
+            System.out.println("2 - Bolacha");
+            System.out.println("3 - Pão");
+            System.out.println("4 - Frutas");
             System.out.println("-".repeat(40));
-            
-            System.out.print("Digite sua escolha (1-4): ");
-            int escolha = scanner.nextInt();
-            
-            System.out.println("\nVocê escolheu: ");
+
+            System.out.print("Digite o número da sua escolha: ");
+            int escolha = teclado.nextInt();
+
+            System.out.println();
             switch (escolha) {
                 case 1:
-                    System.out.println("Café - Boa escolha para começar o dia!");
+                    System.out.println("Você escolheu Café - Boa escolha para acordar!");
                     break;
                 case 2:
-                    System.out.println("Bolacha - Um lanche rápido e prático!");
+                    System.out.println("Você escolheu Bolacha - Lanche rápido!");
                     break;
                 case 3:
-                    System.out.println("Pão - Um clássico do café da manhã!");
+                    System.out.println("Você escolheu Pão - Tradicional!");
                     break;
-                case 4: 
-                    System.out.println("Frutas - Uma opção saudável!");
+                case 4:
+                    System.out.println("Você escolheu Frutas - Saudável!");
                     break;
-           default:
+                default:
                     System.out.println("Opção inválida!");
+                    break;
             }
         } else {
-            System.out.println("Acesso Negado🔒!");
+            System.out.println("Acesso negado!");
             System.out.println("-".repeat(40));
-            System.out.println("Você foi banido!");
+            System.out.println("Você não tem idade suficiente.");
         }
-        
-        scanner.close();
+
+        teclado.close();
     }
 }
